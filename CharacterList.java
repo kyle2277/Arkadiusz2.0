@@ -3,14 +3,14 @@ import java.util.*;
 public class CharacterList {
    
    //directory of characters
-   ArrayList<CharacterNode> dictionary;
+   public ArrayList<CharacterNode> dictionary;
    
    public CharacterList() {
       dictionary = new ArrayList<CharacterNode>();
    }
    
    public void read(Scanner input) {
-      int itr = 0;
+      int itr = 1;
       while(input.hasNextLine()) {
          int index = itr;
          String next = input.nextLine();
@@ -23,7 +23,7 @@ public class CharacterList {
    }
    
    public CharacterNode getNode(int index) {
-      return dictionary.get(index);
+      return dictionary.get(index-1);
    }
    
    public CharacterNode getNode(String character) {

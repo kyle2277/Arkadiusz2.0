@@ -9,11 +9,36 @@ public class CharacterTesting {
       Scanner dictionary = new Scanner(file);
       CharacterList list = new CharacterList();
       list.read(dictionary);
+      EncoderDecoder e = new EncoderDecoder("key", list);
+      System.out.println(e.encodeKey);
+      System.out.println("Encryption (change of basis) matrix:");
+      e.encryptionMatrix.print();
+      SimpleMatrix A = e.encode("kylejwon@gmail.com");
+      System.out.println("Encrypted matrix:");
+      A.print();
+      System.out.println(e.decode(A));
+            
       //list.print();
-      Random rand = new Random();
-      for (int i = 0; i < 100; i++) {
-         System.out.println((int)(Math.random()*10)+10);
-      }
+      //Random rand = new Random();
+      //for (int i = 0; i < 100; i++) {
+        // System.out.println((int)(Math.random()*10)+10);
+      //}
+      
+      /*
+      SimpleMatrix A = new SimpleMatrix(array);
+      A.print();
+      SimpleMatrix B = A.extractVector(false, 0);
+      B.print();
+      SimpleMatrix C = A.mult(B);
+      C.print();
+      SimpleMatrix Ainv = A.invert();
+      Ainv.print();
+      SimpleMatrix result = Ainv.mult(C);
+      result.print();
+      */
+      
+      
+      //System.out.println(A.determinant());
    }
 
 }
