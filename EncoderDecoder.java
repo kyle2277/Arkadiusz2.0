@@ -118,7 +118,12 @@ public class EncoderDecoder {
          {9, 11, 11, 12},
          {13, 14, 15, 16}
       };
-      encryptionMatrix = new SimpleMatrix(a);
+      SimpleMatrix gen = new SimpleMatrix(a);
+      if (gen.determinant() == 0) {
+         System.out.println("Invalid password");
+      } else {
+         encryptionMatrix = gen;
+      }
    }
    
    
