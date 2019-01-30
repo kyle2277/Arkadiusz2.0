@@ -11,11 +11,12 @@ public class CharacterTesting {
       list.read(dictionary);
       EncoderDecoder e = new EncoderDecoder("words", list);
       AccountVault a = new AccountVault();
+      /*
       Account test = new Account("testing", "username", "password", e);
       a.save(test);
       Account test2 = new Account("testing also", "aaaaaaa", "hhhhhhhh", e);
       a.save(test2);
-      
+      */
       
       /*
       System.out.println("Encryption (change of basis) matrix:");

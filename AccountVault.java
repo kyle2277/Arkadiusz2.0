@@ -5,7 +5,7 @@ import org.apache.commons.lang3.*;
 
 public class AccountVault {
    public static final String ACCOUNT_INDICATOR = "******";
-   public static final String NEW_MAT_INDICATOR = "------";
+   public static final String NEW_MAT_INDICATOR = "------\n";
    public static final String COLUMN_SEPARATOR = "_";
    public File vault_file;
    public ArrayList<Account> vault;
@@ -22,30 +22,38 @@ public class AccountVault {
    
    public void buildLocalVault(Scanner sc) {
       while(sc.hasNextLine()) {
-         if (sc.nextLine() == ACCOUNT_INDICATOR) {
+         String line = sc.nextLine();
+         if (line.equals(ACCOUNT_INDICATOR)) {
             String name = sc.nextLine();
             Account curAccnt = new Account(name);
-            parseMat(curAccnt, sc, true);
+            SimpleMatrix username = parseMat(curAccnt, sc, true);
+            curAccnt.setUsername(username);
             sc.nextLine();
-            parseMat(curAccnt, sc, false);
+            SimpleMatrix password = parseMat(curAccnt, sc, false);
+            curAccnt.setPassword(password);
+         } else {
+            sc.nextLine();
          }
       }
       
    }
    
-   public void parseMat(Account curAccnt, Scanner sc, boolean username) {
+   public SimpleMatrix parseMat(Account curAccnt, Scanner sc, boolean username) {
       String first = sc.nextLine();
       int numCols = StringUtils.countMatches(first, COLUMN_SEPARATOR);
       Queue<Double> q = new LinkedList<Double>();
-      for (int i = 0; i < numCols; i++) {
-         
-      }
+      double[][] extracted = new double[4][numCols];
       for (int i = 0; i < 4; i++) {
-         
+         String line = sc.nextLine();
+         String[] split = line.split("_",0);
          for (int j = 0; j < numCols; j++) {
-            
+            double num = Double.valueOf(split[j]);
+            extracted[i][j] = num;
          }
       }
+      SimpleMatrix encrypted = new SimpleMatrix(extracted);
+      encrypted.print();
+      return encrypted;
    }
    
    public void save(Account account) throws IOException {
@@ -53,10 +61,10 @@ public class AccountVault {
       FileWriter wr = new FileWriter(vault_file,true);
       SimpleMatrix username = account.getUsername();
       SimpleMatrix password = account.getPassword();
-      wr.write(ACCOUNT_INDICATAOR+"\n");
+      wr.write(ACCOUNT_INDICATOR);
       wr.write(account.name+"\n");
       writeMat(wr, username);
-      wr.write(NEW_MAT_INDICATOR+"\n");
+      wr.write(NEW_MAT_INDICATOR);
       writeMat(wr, password);
       wr.close();
    }

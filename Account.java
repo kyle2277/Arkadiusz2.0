@@ -6,13 +6,13 @@ import java.util.*;
 public class Account {
    
    //name of account
-   String name;
+   public String name;
    //encoded username
-   SimpleMatrix username;
+   public SimpleMatrix username;
    //encoded password
-   SimpleMatrix password;
+   public SimpleMatrix password;
    //encoder
-   EncoderDecoder e;
+   public EncoderDecoder e;
    
    //consructs basic account, no username of password
    public Account(String name) {
@@ -23,22 +23,30 @@ public class Account {
    public Account(String name, String username, String password, EncoderDecoder e) {
       this.name = name;
       this.e = e;
-      setUsername(username);
-      setPassword(password);
+      encryptUsername(username);
+      encryptPassword(password);
    }
    
    
-   public void setUsername(String username) {
+   public void encryptUsername(String username) {
       this.username = e.encode(username);
       this.username.print(); 
+   }
+   
+   public void setUsername(SimpleMatrix username) {
+      this.username = username;
    }
    
    public SimpleMatrix getUsername() {
       return username;
    }
    
-   public void setPassword(String password) {
+   public void encryptPassword(String password) {
       this.password = e.encode(password);
+   }
+   
+   public void setPassword(SimpleMatrix password) {
+      this.password = password;
    }
    
    public SimpleMatrix getPassword() {
