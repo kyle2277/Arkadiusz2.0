@@ -67,8 +67,8 @@ public class EncoderDecoder {
          }
       }
       SimpleMatrix converted = new SimpleMatrix(conv);
-      System.out.println("Encoded (before scrambling) matrix:");
-      converted.print();
+      //System.out.println("Encoded (before scrambling) matrix:");
+      //converted.print();
       return converted;
    }
    
@@ -100,8 +100,8 @@ public class EncoderDecoder {
             
          }
       }
-      System.out.println("Decrypted matrix:");
-      decrypted.print();
+      //System.out.println("Decrypted matrix:");
+      //decrypted.print();
       return decoded;
    }
    
@@ -125,16 +125,14 @@ public class EncoderDecoder {
       double sum2 = 0;
       for (int i = 0; i < encodeKey.length(); i++) {
          sum1 += encodeKey.charAt(i);
-         sum2 += (encodeKey.charAt(i))*(encodeKey.charAt(i));
+         sum2 += (encodeKey.charAt(i))*(Math.log(encodeKey.charAt(i)));
       }
       double nums = Math.log(sum1);
       double nums2 = Math.log(sum2);
       String numStr = nums+"";
       String numStr2 = nums2+"";
-      numStr = removeDecimal(numStr);
-      System.out.println(numStr);
-      numStr2 = removeDecimal(numStr2);
-      System.out.println(numStr2);
+      numStr= numStr.replaceAll("[.]", "");
+      numStr2 = numStr2.replaceAll("[.]", "");
       ArrayList<Double> contain = new ArrayList<Double>();
       for (int j = 0; j < numStr.length(); j++) {
          String str1 = numStr.substring(j,j+1);
@@ -149,29 +147,8 @@ public class EncoderDecoder {
          System.out.println("Invalid password");
       } else {
          encryptionMatrix = gen;
-         encryptionMatrix.print();
+         //encryptionMatrix.print();
       }
-   }
-   
-   //removes decimal from string representation of double so values can be put
-   //into encryption matrix
-   public String removeDecimal(String str) {
-      String newStr="";
-      if (str.contains(".")) {
-      String before = "";
-      String after = "";
-         for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == '.') {
-               before = str.substring(0,i);
-               after = str.substring(i+1);
-               newStr = before+after;      
-            }
-         }
-         
-      } else {
-         newStr = str;
-      }
-      return newStr;
    }
    
    //takes values from string representation of encryption code and puts into 

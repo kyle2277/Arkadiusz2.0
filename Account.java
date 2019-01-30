@@ -11,6 +11,8 @@ public class Account {
    SimpleMatrix username;
    //encoded password
    SimpleMatrix password;
+   //encoder
+   EncoderDecoder e;
    
    //consructs basic account, no username of password
    public Account(String name) {
@@ -18,20 +20,29 @@ public class Account {
    }
    
    //takes username and password, encodes with given encoder
-   public Account(String name, String username, String password, Encoder e) {
+   public Account(String name, String username, String password, EncoderDecoder e) {
       this.name = name;
-      setUsername(username, e);
-      setPassword(password, e);
+      this.e = e;
+      setUsername(username);
+      setPassword(password);
    }
    
    
-   public void setUsername(String username, Encoder e) {
-      username = e.encode(username)
-      
+   public void setUsername(String username) {
+      this.username = e.encode(username);
+      this.username.print(); 
    }
    
-   public void setPassword(String password, Encoder e) {
-      password = e.encode(password);
+   public SimpleMatrix getUsername() {
+      return username;
+   }
+   
+   public void setPassword(String password) {
+      this.password = e.encode(password);
+   }
+   
+   public SimpleMatrix getPassword() {
+      return password;
    }
    
 }

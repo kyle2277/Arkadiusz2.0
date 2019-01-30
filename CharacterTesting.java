@@ -4,21 +4,27 @@ import java.io.*;
 
 public class CharacterTesting {
 
-   public static void main(String[] args) throws FileNotFoundException {
+   public static void main(String[] args) throws FileNotFoundException, IOException {
       File file = new File("dictionary.txt");
       Scanner dictionary = new Scanner(file);
       CharacterList list = new CharacterList();
       list.read(dictionary);
-      EncoderDecoder e = new EncoderDecoder("masterPassword", list);
+      EncoderDecoder e = new EncoderDecoder("words", list);
+      AccountVault a = new AccountVault();
+      Account test = new Account("testing", "username", "password", e);
+      a.save(test);
+      Account test2 = new Account("testing also", "aaaaaaa", "hhhhhhhh", e);
+      a.save(test2);
       
-      System.out.println(e.encodeKey);
+      
+      /*
       System.out.println("Encryption (change of basis) matrix:");
       e.encryptionMatrix.print();
       SimpleMatrix A = e.encode("kylejwon@gmail.com");
       System.out.println("Encrypted matrix:");
       A.print();
       System.out.println(e.decode(A));
-          
+      */    
       //list.print();
       //Random rand = new Random();
       //for (int i = 0; i < 100; i++) {
