@@ -9,7 +9,8 @@ public class CharacterTesting {
       Scanner dictionary = new Scanner(file);
       CharacterList list = new CharacterList();
       list.read(dictionary);
-      EncoderDecoder e = new EncoderDecoder("key", list);
+      EncoderDecoder e = new EncoderDecoder("masterPassword", list);
+      
       System.out.println(e.encodeKey);
       System.out.println("Encryption (change of basis) matrix:");
       e.encryptionMatrix.print();
@@ -17,7 +18,7 @@ public class CharacterTesting {
       System.out.println("Encrypted matrix:");
       A.print();
       System.out.println(e.decode(A));
-            
+          
       //list.print();
       //Random rand = new Random();
       //for (int i = 0; i < 100; i++) {

@@ -1,6 +1,8 @@
 import java.util.*;
 import org.ejml.simple.*;
 
+//Core encoder and decoder
+//requires and encoder key to be accessed
 public class EncoderDecoder {
    
    //master password
@@ -9,7 +11,8 @@ public class EncoderDecoder {
    public SimpleMatrix encryptionMatrix;
    //dictionary
    public CharacterList dictionary;
-      
+   
+   //constructs encoder object, takes master password and dictionary   
    public EncoderDecoder(String encodeKey, CharacterList dictionary) {
       this.dictionary = dictionary;
       this.encodeKey = encodeKey;
@@ -32,6 +35,7 @@ public class EncoderDecoder {
       //SimpleMatrix encoded = new SimpleMatrix();
    }
    
+   //takes credential to convert and turns string values into a matrix to be encrypted
    public SimpleMatrix generateConvertedMat(String credential) {
       int length = credential.length();
       int quads = length/4;
@@ -68,6 +72,7 @@ public class EncoderDecoder {
       return converted;
    }
    
+   //takes an encoded matrix and converts it back to a string
    public String decode(SimpleMatrix encoded) {
       String decoded="";
       SimpleMatrix decrypted = decodeMat(encoded);
@@ -77,15 +82,20 @@ public class EncoderDecoder {
             String val = vector.get(j)+"";
             if (!val.equals("0.0")) {
                double d_index = Double.valueOf(val.substring(2));
-               int index = (int) d_index;
-               double d_indicator = Double.valueOf(val.substring(0,2));
-               int indicator = (int) d_indicator;
-               boolean primary = indicator < 20;
-               if (primary) {
-                  decoded += dictionary.getNode(index).primary;
-               } else {
-                  decoded += dictionary.getNode(index).secondary;
+               int index = (int) Math.round(d_index);
+               //makes sure characters that become close to zero after decryption 
+               //are read as not characters
+               if (index > (1.e-4)) {
+                  double d_indicator = Double.valueOf(val.substring(0,2));
+                  int indicator = (int) d_indicator;
+                  boolean primary = indicator < 20;
+                  if (primary) {
+                     decoded += dictionary.getNode(index).primary;
+                  } else {
+                     decoded += dictionary.getNode(index).secondary;
+                  }
                }
+               
             }
             
          }
@@ -95,6 +105,7 @@ public class EncoderDecoder {
       return decoded;
    }
    
+   //takes encoded matrix and applies change of basis to un-encrypt
    public SimpleMatrix decodeMat(SimpleMatrix encoded) {
       //decryption matrix = inverse of encryption matrix
       SimpleMatrix decryptionMat = encryptionMatrix.invert();
@@ -108,22 +119,73 @@ public class EncoderDecoder {
       return decrypted;
    }
    
+   //generates unique change of basis matrix from given master password
    public void generateMat(String encodeKey) {
-      /*
-      generate change of basis matrix from given master password
-      */
-      double[][] a = new double[][] {
-         {0, 2, 3, 4},
-         {5, 6, 7, 8},
-         {9, 11, 11, 12},
-         {13, 14, 15, 16}
-      };
-      SimpleMatrix gen = new SimpleMatrix(a);
+      double sum1 = 0;
+      double sum2 = 0;
+      for (int i = 0; i < encodeKey.length(); i++) {
+         sum1 += encodeKey.charAt(i);
+         sum2 += (encodeKey.charAt(i))*(encodeKey.charAt(i));
+      }
+      double nums = Math.log(sum1);
+      double nums2 = Math.log(sum2);
+      String numStr = nums+"";
+      String numStr2 = nums2+"";
+      numStr = removeDecimal(numStr);
+      System.out.println(numStr);
+      numStr2 = removeDecimal(numStr2);
+      System.out.println(numStr2);
+      ArrayList<Double> contain = new ArrayList<Double>();
+      for (int j = 0; j < numStr.length(); j++) {
+         String str1 = numStr.substring(j,j+1);
+         String str2 = numStr2.substring(j,j+1);
+         String union = str1+str2;
+         double union_double = (double) Integer.parseInt(union);
+         contain.add(union_double);
+      } 
+      double[][] matArray = populateMat(contain);
+      SimpleMatrix gen = new SimpleMatrix(matArray);
       if (gen.determinant() == 0) {
          System.out.println("Invalid password");
       } else {
          encryptionMatrix = gen;
+         encryptionMatrix.print();
       }
+   }
+   
+   //removes decimal from string representation of double so values can be put
+   //into encryption matrix
+   public String removeDecimal(String str) {
+      String newStr="";
+      if (str.contains(".")) {
+      String before = "";
+      String after = "";
+         for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == '.') {
+               before = str.substring(0,i);
+               after = str.substring(i+1);
+               newStr = before+after;      
+            }
+         }
+         
+      } else {
+         newStr = str;
+      }
+      return newStr;
+   }
+   
+   //takes values from string representation of encryption code and puts into 
+   //the change of basis matrix
+   public double[][] populateMat(ArrayList<Double> contain) {
+      double[][] matArray = new double[4][4];
+      int count = 0;
+      for (int k = 0; k < 4; k++) {
+         for (int w = 0; w < 4; w++) {
+            matArray[k][w] = contain.get(count);
+            count++;
+         }
+      }
+      return matArray;
    }
    
    
