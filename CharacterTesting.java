@@ -11,6 +11,8 @@ public class CharacterTesting {
       list.read(dictionary);
       EncoderDecoder e = new EncoderDecoder("words", list);
       AccountVault a = new AccountVault();
+      String decoded = e.decode(a.vault.get(0).getUsername());
+      System.out.println(decoded);
       /*
       Account test = new Account("testing", "username", "password", e);
       a.save(test);

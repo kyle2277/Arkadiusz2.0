@@ -31,6 +31,7 @@ public class AccountVault {
             sc.nextLine();
             SimpleMatrix password = parseMat(curAccnt, sc, false);
             curAccnt.setPassword(password);
+            vault.add(curAccnt);
          } else {
             sc.nextLine();
          }
@@ -39,16 +40,18 @@ public class AccountVault {
    }
    
    public SimpleMatrix parseMat(Account curAccnt, Scanner sc, boolean username) {
-      String first = sc.nextLine();
-      int numCols = StringUtils.countMatches(first, COLUMN_SEPARATOR);
+      String line = sc.nextLine();
+      int numCols = StringUtils.countMatches(line, COLUMN_SEPARATOR);
       Queue<Double> q = new LinkedList<Double>();
       double[][] extracted = new double[4][numCols];
       for (int i = 0; i < 4; i++) {
-         String line = sc.nextLine();
          String[] split = line.split("_",0);
          for (int j = 0; j < numCols; j++) {
             double num = Double.valueOf(split[j]);
             extracted[i][j] = num;
+         }
+         if (i < 3) {
+            line = sc.nextLine();
          }
       }
       SimpleMatrix encrypted = new SimpleMatrix(extracted);
