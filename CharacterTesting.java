@@ -12,7 +12,9 @@ public class CharacterTesting {
       EncoderDecoder e = new EncoderDecoder("words", list);
       System.out.println(e.encryptionMatrix);
       AccountVault a = new AccountVault();
-      
+      String str = "-add <name> <username>";
+      System.out.println(str.substring(4,5));
+      /*
       System.out.println("Username:");
       a.vault.get(0).getUsername().print();
       System.out.println("Password:");
@@ -20,7 +22,7 @@ public class CharacterTesting {
       System.out.println(Arrays.toString(a.fetch("testing also",e)));
       //String decoded = e.decode(a.vault.get(0).getUsername());
       //System.out.println(decoded);
-      
+      */
       /*
       Account test = new Account("testing", "username", "password", e);
       a.save(test);

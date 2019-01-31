@@ -64,8 +64,8 @@ public class EncoderDecoder {
          }
       }
       SimpleMatrix converted = new SimpleMatrix(conv);
-      System.out.println("Encoded (before scrambling) matrix:");
-      converted.print();
+      //System.out.println("Encoded (before scrambling) matrix:");
+      //converted.print();
       return converted;
    }
    
@@ -98,8 +98,8 @@ public class EncoderDecoder {
          }
          
       }
-      System.out.println("Decrypted matrix:");
-      decrypted.print();
+      //System.out.println("Decrypted matrix:");
+      //decrypted.print();
       return decoded;
    }
    
