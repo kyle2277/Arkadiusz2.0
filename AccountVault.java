@@ -42,7 +42,7 @@ public class AccountVault {
    public SimpleMatrix parseMat(Account curAccnt, Scanner sc, boolean username) {
       String line = sc.nextLine();
       int numCols = StringUtils.countMatches(line, COLUMN_SEPARATOR);
-      Queue<Double> q = new LinkedList<Double>();
+      //Queue<Double> q = new LinkedList<Double>();
       double[][] extracted = new double[4][numCols];
       for (int i = 0; i < 4; i++) {
          String[] split = line.split("_",0);
@@ -55,7 +55,7 @@ public class AccountVault {
          }
       }
       SimpleMatrix encrypted = new SimpleMatrix(extracted);
-      encrypted.print();
+      //encrypted.print();
       return encrypted;
    }
    
@@ -65,7 +65,7 @@ public class AccountVault {
       SimpleMatrix username = account.getUsername();
       SimpleMatrix password = account.getPassword();
       wr.write(ACCOUNT_INDICATOR);
-      wr.write(account.name+"\n");
+      wr.write("\n"+account.name+"\n");
       writeMat(wr, username);
       wr.write(NEW_MAT_INDICATOR);
       writeMat(wr, password);
@@ -80,6 +80,19 @@ public class AccountVault {
          }
          wr.write("\n");
       }
-   }  
+   }
+   
+   public String[] fetch(String name, EncoderDecoder e) {
+      name = name.replaceAll(" ", "-");
+      String[] credentials = new String[3];
+      for (Account accnt : vault) {
+         if (accnt.getName().equalsIgnoreCase(name)) {
+            credentials[0] = accnt.getName().replaceAll("-", " ");
+            credentials[1] = accnt.decryptUsername(e);
+            credentials[2] = accnt.decryptPassword(e);
+         }
+      }
+      return credentials;
+   }
    
 }

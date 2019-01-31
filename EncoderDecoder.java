@@ -30,9 +30,6 @@ public class EncoderDecoder {
          encrypted = encrypted.combine(0, i, result);
       }
       return encrypted;  
-      
-      
-      //SimpleMatrix encoded = new SimpleMatrix();
    }
    
    //takes credential to convert and turns string values into a matrix to be encrypted
@@ -76,29 +73,30 @@ public class EncoderDecoder {
    public String decode(SimpleMatrix encoded) {
       String decoded="";
       SimpleMatrix decrypted = decodeMat(encoded);
+      //change all values that are very close to zero to zero
       for (int i = 0; i < decrypted.numCols(); i++) {
          SimpleMatrix vector = decrypted.extractVector(false, i);
          for (int j = 0; j < vector.numRows(); j++) {
+            if (vector.get(j,0) < (1.e-4)) {
+               vector.set(j,0,0);
+            }
             String val = vector.get(j)+"";
             if (!val.equals("0.0")) {
                double d_index = Double.valueOf(val.substring(2));
                int index = (int) Math.round(d_index);
                //makes sure characters that become close to zero after decryption 
                //are read as not characters
-               if (index > (1.e-4)) {
-                  double d_indicator = Double.valueOf(val.substring(0,2));
-                  int indicator = (int) d_indicator;
-                  boolean primary = indicator < 20;
-                  if (primary) {
-                     decoded += dictionary.getNode(index).primary;
-                  } else {
-                     decoded += dictionary.getNode(index).secondary;
-                  }
-               }
-               
-            }
-            
+               double d_indicator = Double.valueOf(val.substring(0,2));
+               int indicator = (int) Math.round(d_indicator);
+               boolean primary = indicator < 20;
+               if (primary) {
+                  decoded += dictionary.getNode(index).primary;
+               } else {
+                  decoded += dictionary.getNode(index).secondary;
+               }       
+            } 
          }
+         
       }
       //System.out.println("Decrypted matrix:");
       //decrypted.print();

@@ -13,13 +13,14 @@ public class CharacterTesting {
       AccountVault a = new AccountVault();
       String decoded = e.decode(a.vault.get(0).getUsername());
       System.out.println(decoded);
+      System.out.println(Arrays.toString(a.fetch("testing also",e)));
+      
       /*
       Account test = new Account("testing", "username", "password", e);
       a.save(test);
       Account test2 = new Account("testing also", "aaaaaaa", "hhhhhhhh", e);
       a.save(test2);
       */
-      
       /*
       System.out.println("Encryption (change of basis) matrix:");
       e.encryptionMatrix.print();
