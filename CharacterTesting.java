@@ -10,10 +10,16 @@ public class CharacterTesting {
       CharacterList list = new CharacterList();
       list.read(dictionary);
       EncoderDecoder e = new EncoderDecoder("words", list);
+      System.out.println(e.encryptionMatrix);
       AccountVault a = new AccountVault();
-      String decoded = e.decode(a.vault.get(0).getUsername());
-      System.out.println(decoded);
+      
+      System.out.println("Username:");
+      a.vault.get(0).getUsername().print();
+      System.out.println("Password:");
+      a.vault.get(0).getPassword().print();
       System.out.println(Arrays.toString(a.fetch("testing also",e)));
+      //String decoded = e.decode(a.vault.get(0).getUsername());
+      //System.out.println(decoded);
       
       /*
       Account test = new Account("testing", "username", "password", e);
@@ -21,6 +27,8 @@ public class CharacterTesting {
       Account test2 = new Account("testing also", "aaaaaaa", "hhhhhhhh", e);
       a.save(test2);
       */
+      
+      
       /*
       System.out.println("Encryption (change of basis) matrix:");
       e.encryptionMatrix.print();
