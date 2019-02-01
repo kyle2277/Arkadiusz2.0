@@ -6,11 +6,11 @@ import java.util.*;
 public class Account {
    
    //name of account
-   public String name;
+   private String name;
    //encoded username
-   public SimpleMatrix username;
+   private SimpleMatrix username;
    //encoded password
-   public SimpleMatrix password;
+   private SimpleMatrix password;
       
    //consructs basic account, no username of password
    public Account(String name) {

@@ -65,7 +65,7 @@ public class AccountVault {
       SimpleMatrix username = account.getUsername();
       SimpleMatrix password = account.getPassword();
       wr.write(ACCOUNT_INDICATOR);
-      wr.write("\n"+account.name+"\n");
+      wr.write("\n"+account.getName()+"\n");
       writeMat(wr, username);
       wr.write(NEW_MAT_INDICATOR);
       writeMat(wr, password);
@@ -92,8 +92,28 @@ public class AccountVault {
             return credentials;
          }
       }
-      credentials[0] = "None";
+      credentials[0] = "Null";
       return credentials;
    }
    
+   public boolean delete(String name) throws IOException {
+      for (Account accnt : vault) {
+         if (accnt.getName().equalsIgnoreCase(name)) {
+            vault.remove(accnt);
+            vault_file.delete();
+            for (Account saveAccnts : vault) {
+               save(saveAccnts);
+            }
+            return true;
+         }
+      }
+      return false;
+   }
+   
+   public void printAccnts() {
+      System.out.println("Accounts on current file:");
+      for (Account accnt : vault) {
+         System.out.println("- "+ accnt.getName());
+      }
+   }
 }

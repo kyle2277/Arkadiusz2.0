@@ -37,7 +37,7 @@ public class ArkadiuszMain {
             System.out.println("-add <account name> <username>\tadd a new account (write spaces as '-')");
             System.out.println("edit <account name> <username or password>\tchange credientials of an existing account");
             System.out.println("-del <account name>\tremove an existing account");
-            System.out.println("-get <account name>\tget existing credentials");
+            System.out.println("show <account name>\tget existing credentials; No parameter for list of existing accounts");
             System.out.println("quit\texit program");
             System.out.println();
             break;
@@ -62,11 +62,13 @@ public class ArkadiuszMain {
                del(command.substring(5), input);
             }
             break;
-         case "-get":
-            if (checkString(command)) {
-               getError();
+         case "show":
+            if (command.substring(4).isEmpty()) {
+               a.printAccnts();
+            } else if (checkString(command)) {
+               showError();
             } else {
-               get(command.substring(5), input);
+               show(command.substring(5), input);
             }
             break;
          case "quit":
@@ -95,9 +97,9 @@ public class ArkadiuszMain {
          System.out.println("Please mind your surroundings and input password:");
          String password = input.next();
          Account newAccnt = new Account(components[0], components[1], password, e);
-         System.out.println(newAccnt.name);
-         System.out.println(newAccnt.username);
-         System.out.println(newAccnt.password);
+         System.out.println(newAccnt.getName());
+         System.out.println(newAccnt.getUsername());
+         System.out.println(newAccnt.getPassword());
          a.save(newAccnt);
          a = new AccountVault();
       }
@@ -115,18 +117,29 @@ public class ArkadiuszMain {
       System.out.println("missing/incorrect parameters.\nedit <account name> <'username' or 'password'>");
    }
    
-   public static void del(String command, Scanner input) {
-   
+   public static void del(String command, Scanner input) throws IOException {
+      System.out.println(command);
+      System.out.println("Delete " + command + "?");
+      System.out.println("y - yes");
+      System.out.println("any key - no");
+      String confirm = input.nextLine();
+      if (confirm.equals("y")) {
+         if (a.delete(command)) {
+            System.out.println("Account " + command + " has been deleted.");
+         }
+      } else {
+         System.out.println("Deletion of " + command + " terminated.");
+      }
    }
    
    public static void delError() {
       System.out.println("missing/incorrect parameters.\n-del <account name>");
    }
    
-   public static void get(String command, Scanner input) {
+   public static void show(String command, Scanner input) {
       System.out.println(command);
       String[] credentials = a.fetch(command, e);
-      if (!credentials[0].equals("None")) {
+      if (!credentials[0].equals("Null")) {
          System.out.println("\nAccount: " +  credentials[0]);
          System.out.println("Username: " + credentials[1]);
          System.out.println("Password: " + credentials[2] + "\n");
@@ -135,8 +148,8 @@ public class ArkadiuszMain {
       }
    }
    
-   public static void getError() {
-      System.out.println("missing/incorrect parameters.\n-get <account name>");
+   public static void showError() {
+      System.out.println("missing/incorrect parameters.\nshow <account name>\nno parameter for list of existing accounts.");
    }
    
 }
