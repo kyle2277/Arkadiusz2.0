@@ -127,10 +127,13 @@ public class EncoderDecoder {
       }
       double nums = Math.log(sum1);
       double nums2 = Math.log(sum2);
+      System.out.println(nums + "\n" + nums2);
       String numStr = nums+"";
       String numStr2 = nums2+"";
       numStr= numStr.replaceAll("[.]", "");
       numStr2 = numStr2.replaceAll("[.]", "");
+      numStr = extend(numStr);
+      numStr2 = extend(numStr2);
       ArrayList<Double> contain = new ArrayList<Double>();
       for (int j = 0; j < numStr.length(); j++) {
          String str1 = numStr.substring(j,j+1);
@@ -147,6 +150,17 @@ public class EncoderDecoder {
          encryptionMatrix = gen;
          //encryptionMatrix.print();
       }
+   }
+   
+   public String extend(String numStr) {
+      if (numStr.length() < 16) {
+         for (int i = 0; i < (16 - numStr.length()); i++) {
+            numStr = numStr + "0";
+         }
+      }
+      System.out.println(numStr);
+      return numStr;
+      
    }
    
    //takes values from string representation of encryption code and puts into 

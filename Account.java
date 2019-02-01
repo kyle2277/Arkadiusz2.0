@@ -19,7 +19,7 @@ public class Account {
    
    //takes username and password, encodes with given encoder
    public Account(String name, String username, String password, EncoderDecoder e) {
-      this.name = name.replaceAll(" ", "-");
+      this.name = name.replaceAll("-", " ");
       encryptUsername(username, e);
       encryptPassword(password, e);
    }

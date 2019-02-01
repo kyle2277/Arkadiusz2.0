@@ -34,7 +34,7 @@ public class ArkadiuszMain {
       switch (command.substring(0,4)) {
          case "help":
             System.out.println();
-            System.out.println("-add <account name> <username>\tadd a new account");
+            System.out.println("-add <account name> <username>\tadd a new account (write spaces as '-')");
             System.out.println("edit <account name> <username or password>\tchange credientials of an existing account");
             System.out.println("-del <account name>\tremove an existing account");
             System.out.println("-get <account name>\tget existing credentials");
@@ -99,11 +99,12 @@ public class ArkadiuszMain {
          System.out.println(newAccnt.username);
          System.out.println(newAccnt.password);
          a.save(newAccnt);
+         a = new AccountVault();
       }
    }
    
    public static void addError() {
-      System.out.println("missing/inncorrect parameters.\n-add <account name> <username>");
+      System.out.println("missing/inncorrect parameters.\n-add <account name> <username> (write spaces a '-')");
    }
    
    public static void edit(String command, Scanner input) {
@@ -123,7 +124,15 @@ public class ArkadiuszMain {
    }
    
    public static void get(String command, Scanner input) {
-   
+      System.out.println(command);
+      String[] credentials = a.fetch(command, e);
+      if (!credentials[0].equals("None")) {
+         System.out.println("\nAccount: " +  credentials[0]);
+         System.out.println("Username: " + credentials[1]);
+         System.out.println("Password: " + credentials[2] + "\n");
+      } else {
+         System.out.println("Account of given name does not exist.");
+      }
    }
    
    public static void getError() {

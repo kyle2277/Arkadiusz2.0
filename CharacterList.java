@@ -27,6 +27,11 @@ public class CharacterList {
    
    //gets the node of given index
    public CharacterNode getNode(int index) {
+      if ((index > dictionary.size()) || (index <= 0)) {
+         int randInd = (int)(dictionary.size() - (dictionary.size()*Math.random()));
+         System.out.println(randInd);
+         return dictionary.get(randInd);
+      }
       return dictionary.get(index-1);
    }
    

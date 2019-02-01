@@ -83,15 +83,16 @@ public class AccountVault {
    }
    
    public String[] fetch(String name, EncoderDecoder e) {
-      name = name.replaceAll(" ", "-");
       String[] credentials = new String[3];
       for (Account accnt : vault) {
          if (accnt.getName().equalsIgnoreCase(name)) {
-            credentials[0] = accnt.getName().replaceAll("-", " ");
+            credentials[0] = accnt.getName();
             credentials[1] = accnt.decryptUsername(e);
             credentials[2] = accnt.decryptPassword(e);
+            return credentials;
          }
       }
+      credentials[0] = "None";
       return credentials;
    }
    
