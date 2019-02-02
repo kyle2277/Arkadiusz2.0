@@ -127,7 +127,7 @@ public class EncoderDecoder {
       }
       double nums = Math.log(sum1);
       double nums2 = Math.log(sum2);
-      System.out.println(nums + "\n" + nums2);
+      //System.out.println(nums + "\n" + nums2);
       String numStr = nums+"";
       String numStr2 = nums2+"";
       numStr= numStr.replaceAll("[.]", "");
@@ -158,7 +158,7 @@ public class EncoderDecoder {
             numStr = numStr + "0";
          }
       }
-      System.out.println(numStr);
+      //System.out.println(numStr);
       return numStr;
       
    }
@@ -177,6 +177,4 @@ public class EncoderDecoder {
       return matArray;
    }
    
-   
-
 }

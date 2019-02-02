@@ -21,7 +21,6 @@ public class ArkadiuszMain {
       while (!command.equals("quit")) {
          command = listen(input);
       }
-      
    }
       
    public static String listen(Scanner input) throws IOException {

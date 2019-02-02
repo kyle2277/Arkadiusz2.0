@@ -4,11 +4,11 @@ Cc
 Dd
 Ee
 Ff
-Gg
+Kk
 Hh
 Ii
 Jj
-Kk
+Gg
 Ll
 Mm
 Nn
