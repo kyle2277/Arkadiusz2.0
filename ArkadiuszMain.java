@@ -52,7 +52,7 @@ public class ArkadiuszMain {
             if (checkString(command)) {
                editError();
             } else {
-               edit(command.substring(5), input);
+               edit(command.substring(5), input, e);
             }
             break;
          case "-del":
@@ -106,15 +106,20 @@ public class ArkadiuszMain {
    }
    
    public static void addError() {
-      System.out.println("missing/inncorrect parameters.\n-add <account name> <username> (write spaces a '-')");
+      System.out.println("missing/inncorrect parameters.\n-add <account name> <username> (write spaces as '-')");
    }
    
-   public static void edit(String command, Scanner input) {
-   
+   public static void edit(String command, Scanner input, EncoderDecoder e) throws IOException {
+      String[] components = command.split(" ",0);
+      if (a.edit(components, input, e)) {
+         System.out.println(components[0] + " " + components[1] + " edit successful");
+      } else {
+         editError();
+      }
    }
    
    public static void editError() {
-      System.out.println("missing/incorrect parameters.\nedit <account name> <'username' or 'password'>");
+      System.out.println("missing/incorrect parameters.\nedit <account name> <'username' or 'password'> (write spaces as '-')");
    }
    
    public static void del(String command, Scanner input) throws IOException {

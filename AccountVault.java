@@ -84,36 +84,70 @@ public class AccountVault {
    
    public String[] fetch(String name, EncoderDecoder e) {
       String[] credentials = new String[3];
+      Account accnt = exists(name);
+      if (!accnt.getName().equals("Null")) {
+         credentials[0] = accnt.getName();
+         credentials[1] = accnt.decryptUsername(e);
+         credentials[2] = accnt.decryptPassword(e);
+         return credentials;
+      } else {
+         credentials[0] = "Null";
+         return credentials;
+      }
+   }
+   
+   public Account exists(String name) {
       for (Account accnt : vault) {
          if (accnt.getName().equalsIgnoreCase(name)) {
-            credentials[0] = accnt.getName();
-            credentials[1] = accnt.decryptUsername(e);
-            credentials[2] = accnt.decryptPassword(e);
-            return credentials;
+            return accnt;
          }
       }
-      credentials[0] = "Null";
-      return credentials;
+      Account nullAccnt = new Account("Null");
+      return nullAccnt;
    }
    
    public boolean delete(String name) throws IOException {
-      for (Account accnt : vault) {
-         if (accnt.getName().equalsIgnoreCase(name)) {
-            vault.remove(accnt);
-            vault_file.delete();
-            for (Account saveAccnts : vault) {
-               save(saveAccnts);
-            }
-            return true;
+      Account accnt = exists(name);
+      if (!accnt.getName().equals("Null")) {
+         vault.remove(accnt);
+         vault_file.delete();
+         //rebuild vault
+         for (Account saveAccnts : vault) {
+            save(saveAccnts);
          }
+         return true;
+      } else {
+         return false;
       }
-      return false;
    }
-   
+
+   public boolean edit(String[] components, Scanner input, EncoderDecoder e) throws IOException {
+      components[0] = components[0].replaceAll("-", " ");
+      Account accnt = exists(components[0]);
+      if ((components[1].equals("username")) || (components[1].equals("password")) && 
+         (accnt.getName().equals(components[0]))) {
+         System.out.println("Enter new " + components[1] + " for " + components[0] + ":");
+         String credential = input.nextLine();
+         if (components[1].equals("username")) {
+            accnt.encryptUsername(credential, e);
+         } else {
+            accnt.encryptPassword(credential, e);
+         }
+         vault_file.delete();
+         for (Account saveAccnts : vault) {
+            save(saveAccnts);
+         }
+         return true;
+      } else {
+         return false;
+      }
+   }
+      
    public void printAccnts() {
       System.out.println("Accounts on current file:");
       for (Account accnt : vault) {
          System.out.println("- "+ accnt.getName());
       }
    }
+
 }

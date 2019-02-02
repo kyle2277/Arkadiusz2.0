@@ -13,7 +13,7 @@ public class CharacterTesting {
       System.out.println(e.encryptionMatrix);
       AccountVault a = new AccountVault();
       String str = "-add <name> <username>";
-      System.out.println(str.substring(4,5));
+      System.out.println(str.substring(4));
       /*
       System.out.println("Username:");
       a.vault.get(0).getUsername().print();
