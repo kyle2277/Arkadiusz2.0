@@ -135,7 +135,7 @@ public class EncoderDecoder {
       numStr = extend(numStr);
       numStr2 = extend(numStr2);
       ArrayList<Double> contain = new ArrayList<Double>();
-      for (int j = 0; j < numStr.length(); j++) {
+      for (int j = 0; j < Math.min(numStr.length(),numStr2.length()); j++) {
          String str1 = numStr.substring(j,j+1);
          String str2 = numStr2.substring(j,j+1);
          String union = str1+str2;

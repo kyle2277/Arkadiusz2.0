@@ -1,82 +1,87 @@
 import java.util.*;
 import java.io.*;
 import org.ejml.simple.*;
+import org.apache.commons.lang3.*;
 
 public class ArkadiuszMain {
    
    public static EncoderDecoder e;
    public static AccountVault a;
    
-   public static void main (String[] args) throws FileNotFoundException, IOException {
-      File file = new File("dictionary.txt");
-      Scanner dictionary = new Scanner(file);
-      CharacterList list = new CharacterList();
-      list.read(dictionary);
-      a = new AccountVault();
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter encode key");
-      String key = input.nextLine();
-      e = new EncoderDecoder(key, list);
-      String command = "";
-      while (!command.equals("quit")) {
-         command = listen(input);
-      }
+   public static void main (String[] args) {
+      try {
+			File file = new File("dictionary.txt");
+			Scanner dictionary = new Scanner(file);
+			CharacterList list = new CharacterList();
+      	list.read(dictionary);
+			a = new AccountVault();
+      	Scanner input = new Scanner(System.in);
+      	System.out.println("Enter encode key");
+      	String key = input.nextLine();
+      	e = new EncoderDecoder(key, list);
+      	String command = "";
+      	while (!command.equals("quit")) {
+         	command = listen(input);
+      	}
+		} catch (IOException e) {
+			System.out.println("Dicionary not found\nProgram terminated.");
+		}
    }
       
    public static String listen(Scanner input) throws IOException {
-      System.out.println("help for help");
-      String command = input.nextLine();
-      if (command.length() < 4) {
+		System.out.println("help for help");
+   	String command = input.nextLine();
+   	if (command.length() < 4) {
+      	System.out.println("Unrecognized command");
+      	return "run";
+   	}
+   	switch (command.substring(0,4)) {
+      case "help":
+         System.out.println();
+         System.out.println("-add <account name> <username>\tadd a new account (write spaces as '-')");
+         System.out.println("edit <account name> <username or password>\tchange credientials of an existing account");
+         System.out.println("-del <account name>\tremove an existing account");
+         System.out.println("show <account name>\tget existing credentials; No parameter for list of existing accounts");
+         System.out.println("quit\texit program");
+         System.out.println();
+         break;
+      case "-add":
+         if (checkString(command)) {
+            addError();
+         } else {
+            add(command.substring(5), input);
+         }
+         break;
+      case "edit":
+         if (checkString(command)) {
+            editError();
+         } else {
+            edit(command.substring(5), input, e);
+         }
+         break;
+      case "-del":
+         if (checkString(command)) {
+            delError();
+         } else {
+            del(command.substring(5), input);
+         }
+         break;
+      case "show":
+         if (command.substring(4).isEmpty()) {
+            a.printAccnts();
+         } else if (checkString(command)) {
+            showError();
+         } else {
+            show(command.substring(5), input);
+         }
+         break;
+      case "quit":
+         return "quit";
+      default:
          System.out.println("Unrecognized command");
-         return "run";
-      }
-      switch (command.substring(0,4)) {
-         case "help":
-            System.out.println();
-            System.out.println("-add <account name> <username>\tadd a new account (write spaces as '-')");
-            System.out.println("edit <account name> <username or password>\tchange credientials of an existing account");
-            System.out.println("-del <account name>\tremove an existing account");
-            System.out.println("show <account name>\tget existing credentials; No parameter for list of existing accounts");
-            System.out.println("quit\texit program");
-            System.out.println();
-            break;
-         case "-add":
-            if (checkString(command)) {
-               addError();
-            } else {
-               add(command.substring(5), input);
-            }
-            break;
-         case "edit":
-            if (checkString(command)) {
-               editError();
-            } else {
-               edit(command.substring(5), input, e);
-            }
-            break;
-         case "-del":
-            if (checkString(command)) {
-               delError();
-            } else {
-               del(command.substring(5), input);
-            }
-            break;
-         case "show":
-            if (command.substring(4).isEmpty()) {
-               a.printAccnts();
-            } else if (checkString(command)) {
-               showError();
-            } else {
-               show(command.substring(5), input);
-            }
-            break;
-         case "quit":
-            return "quit";
-         default:
-            System.out.println("Unrecognized command");
-            break;
-      }
-      return "run"; 
+         break;
+   	}
+   	return "run";
    }
    
    public static boolean checkString(String n) {
@@ -100,7 +105,7 @@ public class ArkadiuszMain {
          System.out.println(newAccnt.getUsername());
          System.out.println(newAccnt.getPassword());
          a.save(newAccnt);
-         a = new AccountVault();
+			a = new AccountVault();
       }
    }
    
