@@ -1,8 +1,10 @@
 import org.ejml.simple.*;
 import java.util.*;
 
-//Account node object
-//holds name of account, encrypted username, password
+/*
+Account node object
+holds name of account, encrypted username, password
+*/
 public class Account {
    
    //name of account
@@ -33,6 +35,7 @@ public class Account {
       //this.username.print(); 
    }
    
+	//returns unencrypted username
    public String decryptUsername(EncoderDecoder e) {
       return e.decode(this.username);
    }
@@ -42,6 +45,7 @@ public class Account {
       this.username = username;
    }
    
+	//returns encrypted username matrix
    public SimpleMatrix getUsername() {
       return username;
    }
@@ -50,6 +54,7 @@ public class Account {
       setPassword(e.encode(password));
    }
    
+	//returns unencrypted password
    public String decryptPassword(EncoderDecoder e) {
       return e.decode(this.password);
    }
@@ -59,6 +64,7 @@ public class Account {
       this.password = password;
    }
    
+	//returns encrypted password matrix
    public SimpleMatrix getPassword() {
       return password;
    }

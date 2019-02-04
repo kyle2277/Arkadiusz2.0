@@ -1,7 +1,9 @@
 import java.util.*;
 
-//character node object
-//holds primary character, secondary character, index value
+/*
+character node object
+holds primary character, secondary character, index value
+*/
 public class CharacterNode{
    //primary character contained by the node
    public String primary;
@@ -17,6 +19,7 @@ public class CharacterNode{
       this.index = index;
    }
    
+	//returns printable node information
    public String toString() {
       return "Index: " + index + "\nPrimary character: " + primary + "\nSecondary character: " + secondary + "\n";
    }

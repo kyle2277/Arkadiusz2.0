@@ -3,13 +3,19 @@ import java.io.*;
 import org.ejml.simple.*;
 import org.apache.commons.lang3.*;
 
+//in-app container for accounts
 public class AccountVault {
-   public static final String ACCOUNT_INDICATOR = "******";
-   public static final String NEW_MAT_INDICATOR = "------\n";
-   public static final String COLUMN_SEPARATOR = "_";
-   public File vault_file;
+   //indicates new account in accounts txt
+	public static final String ACCOUNT_INDICATOR = "******";
+   //separates matrices in accounts txt
+	public static final String NEW_MAT_INDICATOR = "------\n";
+   //denotes spaces between columns in matrices in account txt
+	public static final String COLUMN_SEPARATOR = "_";
+   //txt that holds account matrices
+	public File vault_file;
+	//list of current accounts
    public ArrayList<Account> vault;
-
+	
    public AccountVault() throws FileNotFoundException {
       vault = new ArrayList<Account>();
       this.vault_file = new File("vault.txt");
@@ -20,6 +26,7 @@ public class AccountVault {
       }
    }
    
+	//constructs container of current accounts from account txt on local drive.
    public void buildLocalVault(Scanner sc) {
       while(sc.hasNextLine()) {
          String line = sc.nextLine();
@@ -35,11 +42,15 @@ public class AccountVault {
          } else {
             sc.nextLine();
          }
-      }
-      
+      } 
    }
    
-   public SimpleMatrix parseMat(Account curAccnt, Scanner sc, boolean username) {
+	/*
+	imports matrices from accounts txt on drive into program.
+	takes an account object, scanner and boolean of whether matrix in question is username or not (password).
+	returns respective matrix (encrypted).
+   */
+	public SimpleMatrix parseMat(Account curAccnt, Scanner sc, boolean username) {
       String line = sc.nextLine();
       int numCols = StringUtils.countMatches(line, COLUMN_SEPARATOR);
 		//Queue<Double> q = new LinkedList<Double>();
@@ -59,7 +70,11 @@ public class AccountVault {
       return encrypted;
    }
    
-   public void save(Account account) throws IOException {
+	/*
+	saves account to txt file on local drive.
+	takes account.
+   */
+	public void save(Account account) throws IOException {
       //boolean tells writer to append new data to file
 		FileWriter wr = new FileWriter(vault_file,true);
    	SimpleMatrix username = account.getUsername();
@@ -71,9 +86,10 @@ public class AccountVault {
    	writeMat(wr, password);
    	wr.close();
 		System.out.println("IO Exception");
-		
    }
    
+	//transcribes encrypted matrix from program to accounts txt.
+	//takes file writer and matrix to transcribe.
    public void writeMat(FileWriter wr, SimpleMatrix mat) throws IOException {
       for (int i = 0; i < mat.numRows(); i++) {
          for (int j = 0; j < mat.numCols(); j++) {
@@ -84,7 +100,12 @@ public class AccountVault {
       }
    }
    
-   public String[] fetch(String name, EncoderDecoder e) {
+	/*
+	gets username and password matrix of given account.
+	takes name of account and encoder.
+	returns list of account information.
+   */
+	public String[] fetch(String name, EncoderDecoder e) {
       String[] credentials = new String[3];
       Account accnt = exists(name);
       if (!accnt.getName().equals("Null")) {
@@ -98,7 +119,11 @@ public class AccountVault {
       }
    }
    
-   public Account exists(String name) {
+	/*
+	checks if account of given name exists in current container.
+	returns account if exists, otherwise account named null.
+   */
+	public Account exists(String name) {
       for (Account accnt : vault) {
          if (accnt.getName().equalsIgnoreCase(name)) {
             return accnt;
@@ -108,7 +133,12 @@ public class AccountVault {
       return nullAccnt;
    }
    
-   public boolean delete(String name) throws IOException {
+	/**
+	remove account from current container of accounts.
+	updates accounts file on local drive.
+	returns true if account exists and deletion successful.
+   */
+	public boolean delete(String name) throws IOException {
       Account accnt = exists(name);
       if (!accnt.getName().equals("Null")) {
          vault.remove(accnt);
@@ -122,7 +152,12 @@ public class AccountVault {
          return false;
       }
    }
-
+	
+	/*
+	edit account of given name, updates account txt on local drive.
+	takes list of account information, scanner and encoder.
+	returns true if account exists and edit is successful.
+	*/
    public boolean edit(String[] components, Scanner input, EncoderDecoder e) throws IOException {
       components[0] = components[0].replaceAll("-", " ");
       Account accnt = exists(components[0]);
@@ -144,7 +179,8 @@ public class AccountVault {
          return false;
       }
    }
-      
+   
+	//prints all accounts in current container
    public void printAccnts() {
       System.out.println("Accounts on current file:");
       for (Account accnt : vault) {

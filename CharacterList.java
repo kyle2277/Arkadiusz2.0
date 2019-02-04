@@ -1,7 +1,9 @@
 import java.util.*;
 
-//list of organized characters in dictionary
-//used to deconstruct and reconstruct credentials
+/*
+list of organized characters in dictionary
+used to deconstruct and reconstruct credentials during decryption
+*/
 public class CharacterList {
    
    //directory of characters
@@ -25,8 +27,11 @@ public class CharacterList {
       }  
    }
    
-   //gets the node of given index
-   public CharacterNode getNode(int index) {
+   /*
+	gets the node of given index
+	returns node object
+   */
+	public CharacterNode getNode(int index) {
       if ((index > dictionary.size()) || (index <= 0)) {
          int randInd = (int)(dictionary.size() - (dictionary.size()*Math.random()));
          //System.out.println(randInd);
@@ -35,8 +40,11 @@ public class CharacterList {
       return dictionary.get(index-1);
    }
    
-   //gets the node of given character
-   public CharacterNode getNode(String character) {
+   /*
+	gets the node of given character
+	returns node object
+   */
+	public CharacterNode getNode(String character) {
       for (CharacterNode node : dictionary) {
          if ((character.equals(node.primary)) || (character.equals(node.secondary))) {
             return node;

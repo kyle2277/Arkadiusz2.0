@@ -3,11 +3,22 @@ import java.io.*;
 import org.ejml.simple.*;
 import org.apache.commons.lang3.*;
 
+/*
+Arkadiusz2.0 is a password protection program designed for quick and secure encyrption
+of usernames and passwords. This program internally organizes accounts and
+their respective credientials, making retrieving account information easy and efficient.
+Credentials are stored solely in the form of encrypted matrices in a local file called vault.txt
+*/
 public class ArkadiuszMain {
    
+	//encoder
    public static EncoderDecoder e;
-   public static AccountVault a;
+   //container of current accounts
+	public static AccountVault a;
    
+	/*
+	throws exception if dicionary file not found in current directory
+	*/
    public static void main (String[] args) {
       try {
 			File file = new File("dictionary.txt");
@@ -20,6 +31,8 @@ public class ArkadiuszMain {
       	String key = input.nextLine();
       	e = new EncoderDecoder(key, list);
       	String command = "";
+			splash();
+			//System.out.println("Welcome to Arkadiusz2.0 Password Encryption and Storage");
       	while (!command.equals("quit")) {
          	command = listen(input);
       	}
@@ -27,6 +40,28 @@ public class ArkadiuszMain {
 			System.out.println("Dicionary not found\nProgram terminated.");
 		}
    }
+	
+	//splash ascii art
+	public static void splash() {
+		System.out.println("	                                             |>>>");
+		System.out.println("                                                |");
+		System.out.println("                                            _  _|_  _");
+		System.out.println("                                           |;|_|;|_|;|");
+		System.out.println("                                           \\\\.    .  /");
+		System.out.println("            | ARKADIUSZ 2.0    |            \\\\:  .  /");
+		System.out.println("            |                  |             ||:   |");
+		System.out.println("            |                  |             ||:.  |");
+		System.out.println("            |  Password        |             ||:  .|");
+		System.out.println("            |  Potection       |             ||:   |       \\,/");
+		System.out.println("            |  and Encryption  |             ||: , |            /`\\");
+		System.out.println("                                             ||:   |");
+		System.out.println("                                             ||: . |");
+		System.out.println("              __                            _||_   |");
+		System.out.println("     ____--`~    '--~~__            __ ----~    ~`---,              ___");
+		System.out.println("-~--~                   ~---__ ,--~'                  ~~----_____-~'   `~----~~");
+		System.out.println();
+		
+	}
       
    public static String listen(Scanner input) throws IOException {
 		System.out.println("help for help");
@@ -84,12 +119,14 @@ public class ArkadiuszMain {
    	return "run";
    }
    
+	//checks if user input has options/is formatted correctly
    public static boolean checkString(String n) {
       return ((n.substring(4).isEmpty()) ||
                (n.substring(5).isEmpty()) ||
                (!n.substring(4,5).equals(" ") && !n.substring(5,6).isEmpty()));
    }
    
+	//add a new account to the current container and local account file
    public static void add(String command, Scanner input) throws IOException {
       System.out.println(command);
       String[] components = command.split(" ",0);
@@ -109,10 +146,12 @@ public class ArkadiuszMain {
       }
    }
    
+	//tiggered if add command incomplete/used incorrectly
    public static void addError() {
       System.out.println("missing/inncorrect parameters.\n-add <account name> <username> (write spaces as '-')");
    }
    
+	//edit an account in current container
    public static void edit(String command, Scanner input, EncoderDecoder e) throws IOException {
       String[] components = command.split(" ",0);
       if (a.edit(components, input, e)) {
@@ -122,10 +161,12 @@ public class ArkadiuszMain {
       }
    }
    
+	//triggered if edit command incomplete/used incorrectly
    public static void editError() {
       System.out.println("missing/incorrect parameters.\nedit <account name> <'username' or 'password'> (write spaces as '-')");
    }
    
+	//delete an account in current container
    public static void del(String command, Scanner input) throws IOException {
       System.out.println(command);
       System.out.println("Delete " + command + "?");
@@ -141,10 +182,12 @@ public class ArkadiuszMain {
       }
    }
    
+	//triggered if delete command incomplete/used incorrectly
    public static void delError() {
       System.out.println("missing/incorrect parameters.\n-del <account name>");
    }
    
+	//show all accounts in currently available in container or show specific account of given name
    public static void show(String command, Scanner input) {
       System.out.println(command);
       String[] credentials = a.fetch(command, e);
@@ -157,6 +200,7 @@ public class ArkadiuszMain {
       }
    }
    
+	//triggered if show commmand incomplete/used incorrectly
    public static void showError() {
       System.out.println("missing/incorrect parameters.\nshow <account name>\nno parameter for list of existing accounts.");
    }

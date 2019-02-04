@@ -1,16 +1,18 @@
 import java.util.*;
 import org.ejml.simple.*;
 
-//Core encoder and decoder
-//requires and encoder key to be accessed
+/*
+core encoder and decoder
+requires and encoder key to be accessed
+*/
 public class EncoderDecoder {
    
    //master password
-   public String encodeKey;
+   private String encodeKey;
    //change of basis matrix
-   public SimpleMatrix encryptionMatrix;
-   //dictionary
-   public CharacterList dictionary;
+   private SimpleMatrix encryptionMatrix;
+   //list of characters in dictionary txt
+   private CharacterList dictionary;
    
    //constructs encoder object, takes master password and dictionary   
    public EncoderDecoder(String encodeKey, CharacterList dictionary) {
@@ -19,9 +21,12 @@ public class EncoderDecoder {
       generateMat(encodeKey);
    }
    
-   //encode using "enctryption" change of basis matrix
-   //return encrytped matrix
-   public SimpleMatrix encode(String credential) {
+   /*
+	encrypt using change of basis matrix
+	takes username or password to encode
+   returns encrytped matrix
+   */
+	public SimpleMatrix encode(String credential) {
       SimpleMatrix converted = generateConvertedMat(credential);
       SimpleMatrix encrypted = new SimpleMatrix(1,1);
       for (int i = 0; i < converted.numCols(); i++) {
@@ -32,8 +37,11 @@ public class EncoderDecoder {
       return encrypted;  
    }
    
-   //takes credential to convert and turns string values into a matrix to be encrypted
-   public SimpleMatrix generateConvertedMat(String credential) {
+   /*
+	takes credential to convert and turns string values into a matrix to be encrypted
+	returns encoded matrix
+   */
+	public SimpleMatrix generateConvertedMat(String credential) {
       int length = credential.length();
       int quads = length/4;
       if (length % 4 != 0) {
@@ -69,10 +77,13 @@ public class EncoderDecoder {
       return converted;
    }
    
-   //takes an encoded matrix and converts it back to a string
-   public String decode(SimpleMatrix encoded) {
+   /*
+	takes an encoded matrix and converts it back to a string
+	returns username or password in character form
+   */
+	public String decode(SimpleMatrix encoded) {
       String decoded="";
-      SimpleMatrix decrypted = decodeMat(encoded);
+      SimpleMatrix decrypted = decryptMat(encoded);
       //change all values that are very close to zero to zero
       for (int i = 0; i < decrypted.numCols(); i++) {
          SimpleMatrix vector = decrypted.extractVector(false, i);
@@ -103,12 +114,14 @@ public class EncoderDecoder {
       return decoded;
    }
    
-   //takes encoded matrix and applies change of basis to un-encrypt
-   public SimpleMatrix decodeMat(SimpleMatrix encoded) {
+   /*
+	takes encrypted matrix and applies change of basis to un-encrypt
+	returns unencrypted matrix
+	*/
+   public SimpleMatrix decryptMat(SimpleMatrix encoded) {
       //decryption matrix = inverse of encryption matrix
       SimpleMatrix decryptionMat = encryptionMatrix.invert();
       SimpleMatrix decrypted = new SimpleMatrix(1,1);
-      //make separate method for encoding and decoding
       for (int i = 0; i < encoded.numCols(); i++) {
          SimpleMatrix vector = encoded.extractVector(false, i);
          SimpleMatrix result = decryptionMat.mult(vector);
@@ -118,13 +131,16 @@ public class EncoderDecoder {
    }
    
    //generates unique change of basis matrix from given master password
+	//takes master password, sets encryption matrix with result 
    public void generateMat(String encodeKey) {
       double sum1 = 0;
       double sum2 = 0;
+		//sums char values of master password in 2 ways
       for (int i = 0; i < encodeKey.length(); i++) {
-         sum1 += encodeKey.charAt(i);
+			sum1 += encodeKey.charAt(i);
          sum2 += (encodeKey.charAt(i))*(Math.log(encodeKey.charAt(i)));
       }
+		//take log of both sums to get unique, repeatable digits to use in change of basis matrix
       double nums = Math.log(sum1);
       double nums2 = Math.log(sum2);
       //System.out.println(nums + "\n" + nums2);
@@ -135,7 +151,8 @@ public class EncoderDecoder {
       numStr = extend(numStr);
       numStr2 = extend(numStr2);
       ArrayList<Double> contain = new ArrayList<Double>();
-      for (int j = 0; j < Math.min(numStr.length(),numStr2.length()); j++) {
+      //get matrix values by pairing same index values of the two sums
+		for (int j = 0; j < Math.min(numStr.length(),numStr2.length()); j++) {
          String str1 = numStr.substring(j,j+1);
          String str2 = numStr2.substring(j,j+1);
          String union = str1+str2;
@@ -152,6 +169,10 @@ public class EncoderDecoder {
       }
    }
    
+	/*
+	extends numbers with zeros in case they are too short to pair all values evenly
+	for creation of change of basis matrix
+	*/
    public String extend(String numStr) {
       if (numStr.length() < 16) {
          for (int i = 0; i < (16 - numStr.length()); i++) {
@@ -160,12 +181,13 @@ public class EncoderDecoder {
       }
       //System.out.println(numStr);
       return numStr;
-      
    }
    
-   //takes values from string representation of encryption code and puts into 
-   //the change of basis matrix
-   public double[][] populateMat(ArrayList<Double> contain) {
+   /*
+	takes values from number representation of encryption code and puts into 
+   the change of basis matrix
+   */
+	public double[][] populateMat(ArrayList<Double> contain) {
       double[][] matArray = new double[4][4];
       int count = 0;
       for (int k = 0; k < 4; k++) {
