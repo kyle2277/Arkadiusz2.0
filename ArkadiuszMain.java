@@ -43,7 +43,8 @@ public class ArkadiuszMain {
 	
 	//splash ascii art
 	public static void splash() {
-		System.out.println("	                                             |>>>");
+		System.out.println();
+		System.out.println("                                                |>>>");
 		System.out.println("                                                |");
 		System.out.println("                                            _  _|_  _");
 		System.out.println("                                           |;|_|;|_|;|");
