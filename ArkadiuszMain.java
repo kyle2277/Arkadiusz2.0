@@ -43,25 +43,16 @@ public class ArkadiuszMain {
 	
 	//splash ascii art
 	public static void splash() {
-		System.out.println();
-		System.out.println("                                                |>>>");
-		System.out.println("                                                |");
-		System.out.println("                                            _  _|_  _");
-		System.out.println("                                           |;|_|;|_|;|");
-		System.out.println("                                           \\\\.    .  /");
-		System.out.println("            | ARKADIUSZ 2.0    |            \\\\:  .  /");
-		System.out.println("            |                  |             ||:   |");
-		System.out.println("            |                  |             ||:.  |");
-		System.out.println("            |  Password        |             ||:  .|");
-		System.out.println("            |  Potection       |             ||:   |       \\,/");
-		System.out.println("            |  and Encryption  |             ||: , |            /`\\");
-		System.out.println("                                             ||:   |");
-		System.out.println("                                             ||: . |");
-		System.out.println("              __                            _||_   |");
-		System.out.println("     ____--`~    '--~~__            __ ----~    ~`---,              ___");
-		System.out.println("-~--~                   ~---__ ,--~'                  ~~----_____-~'   `~----~~");
-		System.out.println();
-		
+		try {
+			File splash = new File("splash.txt");
+			Scanner spl = new Scanner(splash);
+			while (spl.hasNextLine()) {
+				System.out.println(spl.nextLine());
+			}
+		} catch(FileNotFoundException e) {
+			System.out.println("Welcome to Arkadiusz 2.0");
+			System.out.println("Password Protection and Encryption Service\n");
+		}
 	}
       
    public static String listen(Scanner input) throws IOException {
