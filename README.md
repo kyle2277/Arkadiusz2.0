@@ -3,8 +3,8 @@ ___
 # Arkadiusz2.0
 ## Overview
 Welcome to project Arkadiusz2.0, a password protection program designed for quick and secure encyrption of usernames and passwords. This program internally organizes accounts and their respective credientials, making retrieving account information easy and efficient. Credentials are stored locally solely in the form of encrypted matrices.
-## \*\*Important Disclaimer\*\*
-This program is an __implementation of concept__. It has not been tested for, and offers no true gaurantee of, security. Always store your sensitive credentials in the most secure manner available, which, admittedly, is probably not this program.
+## \*\*Important\*\*
+This program is an __implementation of concept__. It has not been tested for, and offers no true gaurantee of, security. Proceed at your own risk and always store your sensitive credentials in the most secure manner available.
 ## Documentation
 ### How it works
 #### Master Key
