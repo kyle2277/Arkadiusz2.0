@@ -15,7 +15,7 @@ The process of decryption is simply the opposite of encryption. The encryption/d
 #### The Vault
 The encryption matrix of each respective credential is stored locally in the program directory, in a file called 'vault.txt'. The only non-encrypted information in the vault is the names of the accounts that correspond to the encrypted credentials. Credentials are __stored in no other form or place__ than in this file. When the program is running, it generates a list of all current accounts from the vault. This list stores all the passwords in their encrypted matrix form, meaning all decryption is done on the fly when prompted by the user.
 ### Dependencies
-Make sure you add the required .jar files from each of these libraries to your java classpath before running:
+You need to add the required .jar files from each of these libraries to your java classpath before running:
 * EJML (Efficient Java Matrix Library)
   * ejml-simple
   * ejml-core
