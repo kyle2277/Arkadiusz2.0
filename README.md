@@ -1,4 +1,4 @@
-<img src=https://github.com/kyle2277/Arkadiusz2.0/blob/master/Arkadiusz2.0_logo.png width="300" height="200"></img>
+<img src=https://github.com/kyle2277/Arkadiusz2.0/blob/master/Arkadiusz2.0_logo.png width="275" height="183"></img>
 ___
 # Arkadiusz2.0
 ## Overview
