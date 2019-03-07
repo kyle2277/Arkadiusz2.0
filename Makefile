@@ -4,7 +4,7 @@ JCC = javac
 
 CLASSES = Account.java AccountVault.java CharacterList.java CharacterNode.java EncoderDecoder.java
 
-CLASSPATH = /home/kylej/Documents/Kyle/Dev/Arkadiusz2.0/ejml/ejml-simple-0.37.1.jar:/home/kylej/Documents/Kyle/Dev/Arkadiusz2.0/ejml/ejml-core-0.37.1.jar:/home/kylej/Documents/Kyle/Dev/Arkadiusz2.0/ejml/ejml-ddense-0.37.1.jar:/home/kylej/Documents/Kyle/Dev/Arkadiusz2.0/commons-lang3-3.8.1/commons-lang3-3.8.1.jar:.
+CLASSPATH = <path to all dependecy .jar files. See documentation for required dependencies>
 
 #variable for flags
 #-g compiles with debugging information
