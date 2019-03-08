@@ -24,4 +24,4 @@ It is necessary to add the required .jar files from each of these libraries to y
 * StringUtils (Apache Commons Lang3)
   * commons-lang3
 
-If running in the terminal, add the path to all dependencies to the CLASSPATH variable in the makefile.
+For running in the terminal, add the paths of all dependencies to the CLASSPATH variable in the makefile.
