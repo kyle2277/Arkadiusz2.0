@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class CharacterTree{
+public class CharacterTree {
 
    public CharacterNode overallRoot;
    public Scanner console;
