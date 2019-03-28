@@ -4,7 +4,7 @@ import java.util.*;
 character node object
 holds primary character, secondary character, index value
 */
-public class CharacterNode{
+public class CharacterNode {
    //primary character contained by the node
    public String primary;
    //secondary character contained by the node
