@@ -21,10 +21,7 @@ public class ArkadiuszMain {
 	*/
    public static void main (String[] args) {
       try {
-			File file = new File("dictionary.txt");
-			Scanner dictionary = new Scanner(file);
-			CharacterList list = new CharacterList();
-      	list.read(dictionary);
+			CharacterList list = new CharacterList("dictionary.txt");
 			a = new AccountVault();
       	Scanner input = new Scanner(System.in);
       	System.out.println("Enter encode key");

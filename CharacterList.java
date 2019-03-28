@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 /*
 list of organized characters in dictionary
@@ -9,8 +10,18 @@ public class CharacterList {
    //directory of characters
    public ArrayList<CharacterNode> dictionary;
    
-   public CharacterList() {
-      dictionary = new ArrayList<CharacterNode>();
+   public CharacterList(String dictionary_file) throws IOException{
+      File file = new File(dictionary_file);
+      if(file.exists()) {
+         this.dictionary = new ArrayList<CharacterNode>();
+         Scanner dict_file = new Scanner(file);
+         read(dict_file);
+      } else {
+         System.out.println("dictionary.txt does not exist");
+         System.out.println("Program terminated.");
+         System.exit(0);
+      }
+      
    }
    
    //adds character to the dictionary

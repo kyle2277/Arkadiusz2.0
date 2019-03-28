@@ -24,6 +24,9 @@ public class AccountVault {
          buildLocalVault(sc);
          sc.close();
       }
+      System.out.println("No vault.txt found");
+      System.out.println("Program terminated.");
+      System.exit(0);
    }
    
 	//constructs container of current accounts from account txt on local drive.
