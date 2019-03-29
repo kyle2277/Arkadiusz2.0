@@ -19,23 +19,19 @@ public class ArkadiuszMain {
 	/*
 	throws exception if dicionary file not found in current directory
 	*/
-   public static void main (String[] args) {
-      try {
-			CharacterList list = new CharacterList("dictionary.txt");
-			a = new AccountVault();
-      	Scanner input = new Scanner(System.in);
-      	System.out.println("Enter encode key");
-      	String key = input.nextLine();
-      	e = new EncoderDecoder(key, list);
-      	String command = "";
-			splash();
-			//System.out.println("Welcome to Arkadiusz2.0 Password Encryption and Storage");
-      	while (!command.equals("quit")) {
-         	command = listen(input);
-      	}
-		} catch (IOException e) {
-			System.out.println("Dicionary not found\nProgram terminated.");
-		}
+   public static void main (String[] args) throws IOException {
+		CharacterList list = new CharacterList("dictionary.txt");
+		a = new AccountVault();
+   	Scanner input = new Scanner(System.in);
+   	System.out.println("Enter encode key");
+   	String key = input.nextLine();
+   	e = new EncoderDecoder(key, list);
+   	String command = "";
+		splash();
+		//System.out.println("Welcome to Arkadiusz2.0 Password Encryption and Storage");
+   	while (!command.equals("quit")) {
+      	command = listen(input);
+   	}
    }
 	
 	//splash ascii art

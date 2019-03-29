@@ -16,17 +16,18 @@ public class AccountVault {
 	//list of current accounts
    public ArrayList<Account> vault;
 	
-   public AccountVault() throws FileNotFoundException {
-      vault = new ArrayList<Account>();
-      this.vault_file = new File("vault.txt");
-      if (vault_file.exists()) {
+   public AccountVault() {
+      try {
+         vault = new ArrayList<Account>();
+         this.vault_file = new File("vault.txt");
          Scanner sc = new Scanner(vault_file);
          buildLocalVault(sc);
          sc.close();
+      } catch(FileNotFoundException e) {
+         System.out.println("No vault.txt found");
+         System.out.println("Program terminated.");
+         System.exit(0);
       }
-      System.out.println("No vault.txt found");
-      System.out.println("Program terminated.");
-      System.exit(0);
    }
    
 	//constructs container of current accounts from account txt on local drive.
